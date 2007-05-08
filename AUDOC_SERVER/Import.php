@@ -15,7 +15,6 @@
  * | Authors: Jonathan Moss <jon.moss@audata.co.uk>                       |
  * +----------------------------------------------------------------------+
  *
- * $Id: $
  */
  
  /**
@@ -24,7 +23,6 @@
  * @package    AuDoc
  * @author	   Jonathan Moss <jon.moss@audata.co.uk>
  * @copyright  2007 Audata Limited   
- * @version    $Id: $
  */
 if ($argc != 3 || $argv[1] == '--help') {
 	showHelp();

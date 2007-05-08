@@ -15,7 +15,6 @@
  * | Authors: Jonathan Moss <jon.moss@audata.co.uk>                       |
  * +----------------------------------------------------------------------+
  *
- * $Id: $
  */
  
  /**
@@ -25,7 +24,6 @@
  * @package    AuDoc.Modules
  * @author	   Jonathan Moss <jon.moss@audata.co.uk>
  * @copyright  2007 Audata Limited   
- * @version    $Id: $
  */
 
 include_once("classes/includes/class.SmartLoader.php");

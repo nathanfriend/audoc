@@ -23,7 +23,7 @@
  * @package    AuDoc.Modules
  * @authorKhalid Adem <khalid.adem@audata.co.uk>
  * @copyright  2005 Audata Limited   
- * @version    $Id: $
+
  */
 class ModuleManager implements iModule{
 	

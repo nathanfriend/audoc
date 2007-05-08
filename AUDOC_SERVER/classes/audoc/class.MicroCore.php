@@ -31,7 +31,7 @@ if(!isset($_SESSION)){
  * @package    AuDoc.MicroCore
  * @author     Jon Moss <jon.moss@audata.co.uk>
  * @copyright  2007 Audata Limited   
- * @version    $Id: $
+
  */
 class MicroCore
 {

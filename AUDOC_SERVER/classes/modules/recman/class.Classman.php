@@ -25,7 +25,7 @@
  * @package    AuDoc.Modules
  * @author	   Khalid Adem <khalid.adem@audata.co.uk>
  * @copyright  2007 Audata Limited   
- * @version    $Id: $
+
  */
 class Classman {
 	
