@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>%title%</title>
+</head>
+<body>
+<p align="right">run by %username% on %date%</p>
+
+<h1>%title%</h1>
+<hr/>
+%start-records%
+	<p>
+	<strong>Title:</strong> %Title%<br/>
+	<strong>Record Number:</strong> %RecordNumber%<br/>
+	<strong>Classification:</strong> %ClassPath%<br/>
+	<strong>Date Created:</strong> %DateCreated%<br/>
+	<strong>Date Registered:</strong> %DateRegistered%<br/>
+	<strong>Last Modified:</strong> %LastModified%<br/>
+	<strong>Date Closed:</strong> %DateClosed%<br/>
+	<strong>Owner:</strong> %Owner%<br/>
+	<strong>Author:</strong> %Author%<br/>
+	<strong>Notes:</strong> %Notes%<br/>
+	<strong>Record Type:</strong> %RecordType%<br/>
+	</p>
+	<hr/>
+%end-records%
+
+</body>
+</html>
