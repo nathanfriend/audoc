@@ -1,0 +1,2 @@
+This folder contains cache items. Most notably the SmartLoad
+class file mappings and Ezpdo object object cache
