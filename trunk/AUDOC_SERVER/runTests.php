@@ -15,16 +15,14 @@
  * | Authors: Jonathan Moss <jon.moss@audata.co.uk>                       |
  * +----------------------------------------------------------------------+
  *
- * $Id: $
  */
  
  /**
  * This file kick starts the unit test
  *
- * @package    AuDoc.Modules
+ * @package    AuDoc
  * @author	   Jonathan Moss <jon.moss@audata.co.uk>
  * @copyright  2007 Audata Limited   
- * @version    $Id: $
  */
 if(!isset($_SESSION)){
 session_start();

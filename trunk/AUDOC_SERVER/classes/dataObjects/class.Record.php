@@ -24,7 +24,7 @@
  * @package    AuDoc.DataObjects
  * @author     Jon Moss <jon.moss@audata.co.uk>
  * @copyright  2007 Audata Limited   
- * @version    $Id: $
+
  */
 class Record
     extends absAudocBase

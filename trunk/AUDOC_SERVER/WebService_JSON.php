@@ -15,7 +15,6 @@
  * | Authors: Jonathan Moss <jon.moss@audata.co.uk>                       |
  * +----------------------------------------------------------------------+
  *
- * $Id: $
  */
  
  /**
@@ -25,7 +24,6 @@
  * @package    AuDoc.Modules
  * @author	   Jonathan Moss <jon.moss@audata.co.uk>
  * @copyright  2007 Audata Limited   
- * @version    $Id: $
  */
 //Avoid caching issues
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");      // Date in the past
