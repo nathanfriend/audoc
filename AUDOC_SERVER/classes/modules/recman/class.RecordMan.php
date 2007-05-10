@@ -257,6 +257,7 @@ class RecordMan {
 		$record = $record[0];
 		$user = $this->microcore->callModulefunc("users", "getme",array());
 		$record->CheckedOutTo = $user;
+		$record->CheckedOutDate = strtotime(date('Y-m-d'));
 		$con->commit($record);
 		$username = $_SESSION['Username'];
 		$this->addLogItem("Record $uuid checked out to $username");
@@ -274,6 +275,7 @@ class RecordMan {
 		}
 		$record = $record[0];
 		$record->CheckedOutTo = null;
+		$record->CheckedOutDate = null;
 		$con->commit($record);
 		$this->addLogItem("Record $uuid checked in");
 		return $record; 
