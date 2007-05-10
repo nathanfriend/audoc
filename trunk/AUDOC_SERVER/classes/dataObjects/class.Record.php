@@ -184,6 +184,15 @@ class Record
      * @var User
      */
     public $CheckedOutTo = null;
+    
+    /**
+     * @orm date
+     * 
+     * @access public
+     * @var Date
+     */
+    public $CheckedOutDate = null;
+    
 
     // --- OPERATIONS ---
 
@@ -216,8 +225,10 @@ class Record
 		$ret['RecordNumber'] = $this->RecordNumber;
 		if(isset($this->CheckedOutTo)){
 			$ret['CheckedOutTo'] = $this->CheckedOutTo->UserName;
+			$ret['CheckedOutDate'] = date("c", $this->CheckedOutDate);
 		}else{
 			$ret['CheckedOutTo'] = "";
+			$ret['CheckedOutDate'] = "";
 		}
 		$ret['LastModified'] = date("c", $this->LastModified);
 		$ret['DateRegistered'] = date("c", $this->DateRegistered);
