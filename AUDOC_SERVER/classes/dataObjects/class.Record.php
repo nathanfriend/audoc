@@ -104,7 +104,7 @@ class Record
     public $Author = null;
 
     /**
-     * @orm clob(65000) index(idx_notes(255))
+     * @orm clob(65000)
      *
      * @access public
      * @var String
