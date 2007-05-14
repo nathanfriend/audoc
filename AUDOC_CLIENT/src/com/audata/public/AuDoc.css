@@ -1,0 +1,409 @@
+/*
+ * The is file contains the presentation rules for the
+ * AuDoc client
+ *
+ * @author     Jon Moss <jon.moss@audata.co.uk>
+ * @copyright  2007 Audata Limited
+
+ * @version    CVS: $Id: AuDoc.css,v 1.20 2007/04/30 10:28:00 jonm Exp $
+ */
+ 
+.audoc-LoginDialogText {
+	font-size: 80%;
+}
+.audoc-browser{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cfcfcf;
+	padding: 5px;
+	width: 250px;
+	height: 90%;
+}
+.audoc-browser, .audoc-udfs, .audoc-recTypes, .audoc-recList{
+	padding: 5px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cfcfcf;
+	font-weight: bold;
+	color: #204a87;
+	width: 250px;
+}
+.audoc-classLabel{
+	font-size: 75%;
+	font-weight: bold;
+}
+.audoc-commandPanel{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cfcfcf;	
+	background-color: #e3edf6;
+}
+.audoc-disabled{
+	border-style: none;
+	border-width: 0px;
+	color: #000000;
+	font-weight: bold;
+	background-color: transparent;
+}
+.audoc-form{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cfcfcf;
+	color: #204a87;
+	padding: 5px;
+}
+.audoc-group{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cfcfcf;
+}
+.audoc-invalid{
+	color: red;
+}
+.audoc-label{
+	font-size: 80%;
+}
+.audoc-levels, .audoc-caveats, .audoc-users{
+	padding: 5px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cfcfcf;
+	width: 100%;
+	font-weight: bold;
+	color: #204a87;
+}
+.audoc-levels, .audoc-caveats, .audoc-users, .audoc-trays, .audoc-fieldTree{
+	padding: 5px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cfcfcf;
+	width: 100%;
+	font-weight: bold;
+	color: #204a87;
+	background-color: #ffffff;
+}
+.audoc-logoutButton{
+	cursor: hand;
+}
+.audoc-main{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cfcfcf;
+	width: 100%;
+}
+.audoc-note{
+	color: #008000;
+	font-size: 75%;
+}
+.audoc-quickSearch{
+	font-size: 80%;
+	font-weight: bold;
+}
+.audoc-record-class{
+	color: #800000;
+	font-size: 65%;
+}
+.audoc-record-cot{
+	color: #808080;
+	font-size: 65%;
+}
+.audoc-record-title{
+	color: #008000;
+	font-size: 85%;
+	font-weight: bolder;
+}
+.audoc-rectype-notes{
+	color: #606060;
+	font-size: 55%;
+}
+.audoc-rectype-title{
+	color: #000000;
+	font-weight: bolder;
+	font-size: 80%;
+}
+.audoc-report{
+	background-color: #ffffff;
+	border-style: inset;
+	border-width: 2px;
+
+}
+.audoc-report-content{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.audoc-report-criteria{
+	color: #808080;
+	font-size: 65%;
+}
+.audoc-report-template{
+	color: #800000;
+	font-size: 65%;
+}
+.audoc-report-title{
+	color: #008000;
+	font-size: 85%;
+	font-weight: bolder;
+}
+.audoc-required{
+	font-weight: bold;
+	color: #FF0000;
+	font-size: 14pt;
+}
+.audoc-searchForm{
+	padding-left: 10px;
+}
+.audoc-searchLabel{
+	font-size: 75%;
+	font-weight: bold;
+}
+.audoc-sectionSubTitle{
+font-weight: bold;
+}
+.audoc-sectionTitle{
+	padding-bottom: 10px;
+	font-weight: bold;
+	font-size: 20pt;
+}
+.audoc-simpleDialog{
+	max-width: 30em;
+}
+.audoc-subTitle{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-weight: bold;
+	font-size: 12pt;
+	text-decoration: underline;
+}
+.audoc-trayItem{
+
+}
+.audoc-trayLabel{
+	font-size: 75%;
+	font-weight: bold;
+}
+.audoc-treeLabel{
+	font-size: 75%;
+	font-weight: bold;
+}
+.audoc-udf-title{
+	color: #000000;
+	font-weight: bolder;
+	font-size: 80%;
+}
+.audoc-udf-type{
+	color: #606060;
+	font-size: 55%;
+}
+.audoc-userNote {
+	font-size: 80%;
+	font-weight: bold;
+}
+.audoc-valid{
+	color: green;
+}
+.audoc-welcomeText {
+	border: 3px double #cfcfcf;
+	font-family: sans-serif;
+	font-size: 14px;
+	text-align: center;
+	text-transform: capitalize;
+	vertical-align: middle;
+	background-color: #e3edf6;
+}
+.block-background{
+	border-top: 1px solid #AAAAAA;
+	border-right: 1px solid #444444;
+	border-bottom: 1px solid #444444;
+	border-left: 1px solid #AAAAAA;
+	background-color: #e3edf6;
+}
+.bold{
+	font-weight: bold;
+}
+.captionButton{
+	cursor: hand;
+	padding:2px;
+	margin: 1px;
+}
+.captionButton-Icon {
+	cusor: hand;cursor:pointer;
+}
+.captionButton-caption{
+	font-size: 80%;
+	font-weight: bold;
+	cursor: hand;cursor:pointer;
+}
+.captionButton-highlight{
+/*
+	margin: 0px;
+	-moz-border-radius:5px;
+	border: 1px solid #999999;
+	border-top-color: #cccccc;
+	border-left-color: #cccccc;
+*/
+	cursor: hand;cursor:pointer;
+}
+.caveat-title{
+	color: #000000;
+	font-weight: bolder;
+	font-size: 80%;
+}
+.gwt-Button{
+	border: 3px double #999999;
+	border-top-color: #cccccc;
+	border-left-color: #cccccc;
+	padding: 0.1em;
+	background-color: #ffffff;
+	color: #333333;
+	font-size: 75%;
+	font-weight: bold;
+	font-family:arial,sans-serif;
+}
+.gwt-Button:active{
+	border: 3px double #CCCCCC;
+	border-top-color: #999999;
+	border-left-color: #999999;
+}
+.gwt-DialogBox {
+	border-left: 2px solid #AAAAAA;
+	border-top: 2px solid #AAAAAA;
+	border-right: 2px solid #444444;
+	border-bottom: 2px solid #444444;
+	background-color: #e3edf6;
+	-moz-border-radius: 0px 0px 15px 15px;
+}
+.gwt-DialogBox .Caption {
+	background-image: url(images/custom/title.gif);
+	background-repeat: repeat-x;
+	padding: 2px;
+	padding-bottom: 8px;
+	font-weight: bold;
+	cursor: default;
+	height: 35px;
+
+}
+.gwt-ListBox{
+	border: 3px double #999999;
+	border-top-color: #cccccc;
+	border-left-color: #cccccc;
+	padding: 0.1em;
+}
+.gwt-StackPanel {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cfcfcf;
+	background-color: #e3edf6;
+	height: 100%;
+
+}
+.gwt-StackPanel .gwt-StackPanelItem {
+	background-image: url(images/custom/title.gif);
+	background-repeat: repeat-x;
+	padding: 2px;
+	padding-bottom: 8px;
+	font-weight: bold;
+	cursor: default;
+	height: 35px;
+
+ }
+.gwt-StackPanel .gwt-StackPanelItem-selected { 
+	background-image: url(images/custom/title.gif);
+	background-repeat: repeat-x;
+	padding: 2px;
+	padding-bottom: 8px;
+	font-weight: bold;
+	cursor: default;
+	}
+.gwt-TextArea { 
+font-family:arial,sans-serif;
+}
+.gwt-Tree .gwt-TreeItem{
+	font-size: x-small;
+	margin: 4px 0px 0px 4px;
+}
+.hand{
+	cursor: hand;cursor: pointer;
+}
+.htmlButton{
+	border-width: 0px;
+	cursor:hand;
+}
+.htmlButton-caption{
+
+ }
+.htmlButton-icon{
+
+}
+.htmlButton-selected{
+	background-color: #e3edf6;
+}
+.htmlButtonList{
+	border: 3px double #999999;
+	border-top-color: #cccccc;
+	border-left-color: #cccccc;
+	padding: 0.1em;
+}
+.main{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cfcfcf;
+}
+.secLevel-level{
+	color: #606060;
+	font-size: 55%;
+}
+.secLevel-title{
+	color: #000000;
+	font-weight: bolder;
+	font-size: 80%;
+}
+.tree-text{
+	font-weight: bolder;
+	font-size: 75%;
+}
+.user-name{
+	color: #000000;
+	font-weight: bolder;
+	font-size: 80%;
+}
+.user-username{
+	color: #008000;
+	font-size: 65%;
+}
+a:active{
+	color:#ff0000
+}
+a:link,.w,.w a:link{
+	color:#0000cc
+	}
+a:visited{
+	color:#551a8b
+}
+body,td,a,div,.p{
+	font-family:arial,sans-serif;
+	}
+div,td{
+	color:#000000
+}
+img {
+	border-width: 0px;
+}
+.audoc-criteria{
+	font-size: 70%;
+}
+
+.menu{
+
+}
+
+.nowrap{
+	white-space: nowrap
+}
+.selectableButtonList {
+	padding: 3px;
+	border: 3px double Black;
+}
+
+.rapid_processed{
+	font-size: 70%;
+}
