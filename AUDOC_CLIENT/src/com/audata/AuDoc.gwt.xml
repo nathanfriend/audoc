@@ -1,0 +1,20 @@
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.google.gwt.user.User'/>
+	<inherits name="com.google.gwt.i18n.I18N"/>
+	<inherits name="com.google.gwt.json.JSON"/>
+	<inherits name="com.google.gwt.http.HTTP"/>
+	<inherits name="org.gwtwidgets.WidgetLibrary"/>
+	
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class='com.audata.client.AuDoc'/>
+	<!-- Inject config file -->
+  	<script src="config.js"><![CDATA[
+	   if($wnd.configItems){
+	   	return true;
+	   }else{
+	   	return false;
+	   }
+	]]></script>
+</module>
