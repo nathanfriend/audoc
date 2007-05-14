@@ -70,7 +70,7 @@ class RecCentre implements iModule{
 				}
 				break;
 			case 'checkIn':
-				if (count($params) == 2){
+				if (count($params) == 1){
 					$ret = $this->checkIn($params[0], $params[1]);
 				}else{
 					throw new Exception("the method RecCentre.CheckIn requires 2 parameters");
@@ -112,7 +112,7 @@ class RecCentre implements iModule{
 			$params = array();
 			$params[] = "Record {$rec->uuid} checked out to $username";
 			$params[] = Logging::VERBOSITY_NORMAL;
-			$this->microcore->callModuleFunc("Logging", "addItem", $params);
+			$this->microCore->callModuleFunc("Logging", "addItem", $params);
 			return $rec;	
 		}else{
 			throw new Exception("You cannot checkout records to other users");
@@ -132,7 +132,7 @@ class RecCentre implements iModule{
 			$params = array();
 			$params[] = "Record {$rec->uuid} checked in";
 			$params[] = Logging::VERBOSITY_NORMAL;
-			$this->microcore->callModuleFunc("Logging", "addItem", $params);
+			$this->microCore->callModuleFunc("Logging", "addItem", $params);
 			
 			return $rec;
 		}else{

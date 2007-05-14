@@ -111,6 +111,15 @@ echo "register the Reporting Module..\n";
 		$mod->Description = "reporting module";
 		$mod->EntryClass = "Reporting";
 		$con->commit($mod);
+		
+echo "register the RecordCentre Module..\n";
+		$mod = $con->create('Module');
+		$mod->Name = "reccentre";
+		$mod->Version = 1.0;
+		$mod->Description = "Record Centre module";
+		$mod->EntryClass = "RecCentre";
+		$con->commit($mod);
+		
 echo "\nRegistration Complete";
 echo "Adding admin user...";
 	$user = $con->create("User");
