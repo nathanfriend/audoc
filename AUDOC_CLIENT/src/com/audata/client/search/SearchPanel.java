@@ -236,6 +236,7 @@ public class SearchPanel extends VerticalPanel implements TreeListener,
 		this.addField(LANG.date_reg_Text(), "DateRegistered", FieldTypes.TYPE_DATE, false, null);
 		this.addField(LANG.last_mod_Text(), "LastModified", FieldTypes.TYPE_DATE, false, null);
 		this.addField(LANG.review_date_Text(), "DateReview", FieldTypes.TYPE_DATE, false, null);
+		this.addField(LANG.checked_out_date_Text(), "CheckedOutDate", FieldTypes.TYPE_DATE, false, null);
 		this.addField(LANG.owner_Text(), "Owner", FieldTypes.TYPE_STRING, false, null);
 		this.addField(LANG.author_Text(), "Author", FieldTypes.TYPE_STRING, false, null);
 		this.addField(LANG.notes_Text(), "Notes", FieldTypes.TYPE_STRING, false, null);
