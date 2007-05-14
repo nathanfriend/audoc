@@ -197,4 +197,5 @@ public interface Language extends Constants {
 	String user_Text();
 	String checked_out_Text();
 	String checked_in_Text();
+	String checked_out_date_Text();
 }
