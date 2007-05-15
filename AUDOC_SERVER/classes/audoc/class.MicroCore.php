@@ -19,7 +19,7 @@
  */
  
 //Ensure session support is started unless we are running in cli
-if(!isset($_SESSION) && !PHP_SAPI == "cli"){
+if(!isset($_SESSION)){
 	session_start();
 }
  

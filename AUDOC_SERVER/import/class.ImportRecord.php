@@ -356,7 +356,7 @@ class ImportRecord
 					break;
 				case UDF::TYPE_DATE:
 					$udf->Type = UDF::TYPE_DATE;
-					$udf->ValueDate = strtotime($value);
+					$udf->ValueDate = $this->isDate($value);
 					break;
 				case UDF::TYPE_STRING:
 					$udf->Type = UDF::TYPE_STRING;
