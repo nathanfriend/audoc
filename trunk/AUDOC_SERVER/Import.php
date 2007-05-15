@@ -40,7 +40,7 @@ if ($argc != 3 || $argv[1] == '--help') {
 	}else{
 		switch($argv[1]){
 			case 'r':
-				//record import
+				importRecords($argv[2]);
 				break;
 			case 'k':
 				//keyword import
@@ -69,6 +69,7 @@ This is a command line import script for AuDoc
 }
 
 function importRecords($path){
+	echo "Importing Records from $path\n";
 	require_once("classes/includes/class.SmartLoader.php");
 	$mc = new MicroCore("config/configuration.conf");
 	$importer = new ImportRecord($mc->getConnection());
