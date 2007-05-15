@@ -9,3 +9,7 @@ PEAR		- Copyright (c) 1997-2003 The PHP Group						- PHP Licence 3.0
 PEAR::FSM	- Copyright (c) 1997-2004 The PHP Group						- PHP Licence 2.02
 PEAR::LOG	- Copyright (c) 2000 The PHP Group							- PHP Licence 3.01
 PEAR::JSON  - Copyright (c) 2005 Michal Migurski						- BSD
+
+I would also like to thank Gabriel Hodges who worked
+on the original version of AuDoc.  This release is
+dedicated to you. RIP
