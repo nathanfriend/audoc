@@ -198,4 +198,7 @@ public interface Language extends Constants {
 	String checked_out_Text();
 	String checked_in_Text();
 	String checked_out_date_Text();
+	String timeout_Text();
+	String timeout_message_Text();
+	String malformed_Text();
 }
