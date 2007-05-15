@@ -18,8 +18,8 @@
  * $Id: $
  */
  
-//Ensure session support is started
-if(!isset($_SESSION)){
+//Ensure session support is started unless we are running in cli
+if(!isset($_SESSION) && !PHP_SAPI == "cli"){
 	session_start();
 }
  

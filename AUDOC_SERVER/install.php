@@ -36,7 +36,7 @@ function install($db_type, $db_server, $db_name, $db_user, $db_pass, $admin_pass
 			createBlank($admin_pass);
 		}else{
 			//load config!
-			createExample($admin_pass);
+			createExample($db_server, $db_name, $db_user, $db_pass, $admin_pass);
 		}
 	}else{
 		die();
@@ -145,6 +145,41 @@ function addModule($connection, $name, $version, $description, $entryClass){
 
 function createExample($db_server, $db_name, $db_user, $db_pass, $admin_pass){
 	$connection = new mysqli($db_server, $db_user, $db_pass, $db_name);
+	
+	$imports = array();
+	$files = scandir("install");
+	foreach($files as $file){
+		if(strpos($file, ".sql") !== false){
+			$imports[basename($file, ".sql")] = addslashes(dirname(__FILE__). "/install/" .$file);
+		}
+	}
+	foreach($imports as $table=>$path){
+		$query = "LOAD DATA INFILE '$path' INTO TABLE $table";
+		if($connection->query($query) === true){
+			echo "Successfully imported the table <strong>" . $table . "</strong><br/>";
+			flush();ob_flush();
+		}else{
+			echo "Unable to import table " . $table . "(".$connection->error.")<br/>";
+			flush();ob_flush();
+		}
+	}
+	$connection->close();
+	
+	include_once("classes/includes/class.SmartLoader.php");
+	$mc = new MicroCore("config/configuration.conf");
+	$con = $mc->getConnection();
+	$user = $con->find("FROM User WHERE Username=?", 'admin');
+	if(count($user) != 0){
+		$user = $user[0];
+		$user->Password = $admin_pass;
+		$con->commit($user);
+		echo "Admin Password Changed<br/>";
+		flush();ob_flush();
+	}else{
+		echo "Unable change admin password";
+		flush();ob_flush();
+	}
+	
 	echo "incomplete!!";	
 	flush();ob_flush();
 }

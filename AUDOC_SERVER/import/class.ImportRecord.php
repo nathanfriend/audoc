@@ -26,7 +26,8 @@
  * @copyright  2007 Audata Limited   
 
  */
-class ImportRecord{
+class ImportRecord
+{
 
 	private $connection;
 	private $header;
@@ -34,6 +35,7 @@ class ImportRecord{
 	private $rows = 0;
 	private $records = 0;
 	private $errors = 0;
+	private $logfile;
 	
 	private $seclevels = array();
 	private $recTypes = array();
@@ -56,6 +58,7 @@ class ImportRecord{
 		if(!file_exists($path)){
 			die("File not found: $path/n");
 		}
+		$this->logfile = fopen('import_errors.log', 'w');
 		$file = fopen($path, "r");
 		$this->header = fgetcsv($file);
 		$data = null;
@@ -65,14 +68,15 @@ class ImportRecord{
 			for($i=0;$i<count($data);$i++){
 				$cRecord[$this->header[$i]] = $data[$i];
 			}
-			$metadata = $this->processRow($cRecord);
+			$metadata = $this->processRecord($cRecord);
 			if($metadata !== false){
 				//create record
 				$record = $this->createRecord($metadata);
-				if ($record->commit()){
+				if ($this->connection->commit($record)){
 					$this->records++;
 				}else{
 					$this->errors++;
+					fwrite($this->logfile, "Unable to commit record: Row {$this->rows}\n");
 				}
 				//increment records imported
 			}
@@ -90,8 +94,17 @@ class ImportRecord{
 		$metadata["UDFs"] = array();
 		foreach($record as $field=>$value){
 			switch($field){
-				case "Title":
 				case "Classification":
+					//class
+					$c = $this->isClassPath($value);
+					if($c !== false){
+						$metadata[$field] = $c;
+					}else{
+						$this->errors++;
+						$hasErrors = true;
+						fwrite($this->logfile, "Invalid Class: Row {$this->rows}, Field: $field, Value: $value\n");
+					}
+				break;
 				case "Date Created":
 				case "Date Registered":
 				case "Last Modified":
@@ -103,6 +116,7 @@ class ImportRecord{
 					}else{
 						$this->errors++;
 						$hasErrors = true;
+						fwrite($this->logfile, "Invalid Date: Row {$this->rows}, Field: $field, Value: $value\n");
 					}
 				break;
 				case "Record Number":
@@ -112,22 +126,26 @@ class ImportRecord{
 					}else{
 						$this->errors++;
 						$hasErrors = true;
+						fwrite($this->logfile, "Invalid Record Number: Row {$this->rows}, Field: $field, Value: $value\n");
 					}
 				break;
+				case "Title":
 				case "Owner":
 				case "Author":
 				case "Notes":
 					//string
 					//don't need to do anything?
+					$metadata[$field] = $value;
 				break;
 				case "Record Type":
-					$rt = $this->isRecordType($value);
+					$rt = $this->isRecType($value);
 					if($rt !== false){
 						$metadata[$field] = $rt;
 						$recType = $rt;
 					}else{
 						$this->errors++;
 						$hasErrors = true;
+						fwrite($this->logfile, "Invalid Record Type: Row {$this->rows}, Field: $field, Value: $value\n");
 					}
 				break;
 				case "SecLevel":
@@ -137,18 +155,23 @@ class ImportRecord{
 					}else{
 						$this->errors++;
 						$hasErrors = true;
+						fwrite($this->logfile, "Invalid SecLevel: Row {$this->rows}, Field: $field, Value: $value\n");
 					}
 				break;
 				case "Caveats":
 					//multivalent!
-					$cavs = explode(":",$value);
-					for($j=0;$j<count($cavs);$j++){
-						$cav = $this->isCaveat($cavs[$j]);
-						if($cav !== false){
-							$cavs[$j] = $cav;
-						}else{
-							$this->errors++;
-							$hasErrors = true;
+					$cavs = null;
+					if($value != ""){
+						$cavs = explode(":",$value);
+						for($j=0;$j<count($cavs);$j++){
+							$cav = $this->isCaveat($cavs[$j]);
+							if($cav !== false){
+								$cavs[$j] = $cav;
+							}else{
+								$this->errors++;
+								$hasErrors = true;
+								fwrite($this->logfile, "Invalid Caveat: Row {$this->rows}, Field: $field, Value: $value\n");
+							}
 						}
 					}
 					$metadata[$field] = $cavs;
@@ -162,6 +185,7 @@ class ImportRecord{
 						}else{
 							$this->errors++;
 							$hasErrors = true;
+							fwrite($this->logfile, "Invalid UDF: Row {$this->rows}, Field: $field, Value: $value\n");
 						}
 					}else{
 						$this->errors++;
@@ -173,7 +197,8 @@ class ImportRecord{
 		if($hasErrors){
 			return false;
 		}else{
-			return $record;
+			//return $record;
+			return $metadata;
 		}
 	}
 	
@@ -183,8 +208,8 @@ class ImportRecord{
 	 * if not valid then false is returned
 	 **/
 	private function isDate($date){
-		$pattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$";
-		if(preg_match($date)){
+		$pattern = "/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/";
+		if(preg_match($pattern, $date)){
 			return strtotime($date);
 		}else{
 			return false;
@@ -200,7 +225,7 @@ class ImportRecord{
 		if(isset($this->recTypes[$rectype])){
 			return $this->recTypes[$rectype];
 		}else{
-			$rTypes = $connection->find("FROM RecordType WHERE Name ==?", $rectype);
+			$rTypes = $this->connection->find("FROM RecordType WHERE Name ==?", $rectype);
 			if(count($rTypes) > 0){
 				//add it to the cache
 				$this->recTypes[$rectype] = $rTypes[0];
@@ -220,7 +245,7 @@ class ImportRecord{
 		if(isset($this->secLevels[$seclevel])){
 			return $this->secLevels[$seclevel];
 		}else{
-			$sLevels = $connection->find("FROM SecLevel WHERE Name ==?", $seclevel);
+			$sLevels = $this->connection->find("FROM SecLevel WHERE Name ==?", $seclevel);
 			if(count($sLevels) > 0){
 				//add it to the cache
 				$this->secLevels[$seclevel] = $sLevels[0];
@@ -240,7 +265,7 @@ class ImportRecord{
 		if(isset($this->caveats[$caveat])){
 			return $this->caveats[$caveat];
 		}else{
-			$cavs = $connection->find("FROM Caveat WHERE Name ==?", $caveat);
+			$cavs = $this->connection->find("FROM Caveat WHERE Name ==?", $caveat);
 			if(count($cavs) > 0){
 				//add it to the cache
 				$this->cavs[$caveat] = $cavs[0];
@@ -261,7 +286,7 @@ class ImportRecord{
 		if(isset($this->classes[$class])){
 			return $this->classes[$class];
 		}else{
-			$res = $connection->find("FROM Classification WHERE Name ==?", $class);
+			$res = $this->connection->find("FROM Classification WHERE Value ==?", $class);
 			if(count($res) > 0){
 				//add it to the cache
 				$this->classes[$class] = $res[0];
@@ -288,8 +313,8 @@ class ImportRecord{
 				$sections[$i] = trim($sections[$i]);
 			}
 			$class = $sections[count($sections)-1];
-			$res = $connection->find("FROM Classification WHERE Name ==?", $class);
-			if(count($res > 0)){
+			$res = $this->connection->find("FROM Classification WHERE Value ==?", $class);
+			if(count($res) > 0){
 				foreach($res as $c){
 					if($c->getClassification() == $classpath){
 						//add it to the cache
@@ -382,8 +407,9 @@ class ImportRecord{
 		$record->RecordNumber = $metadata["Record Number"];
 		$record->Title = $metadata["Title"];
 		$record->Classification = $metadata["Classification"];
+		echo "Classification: " . $metadata["Classification"]->Value . "\n";
 		$record->DateCreated = $metadata["Date Created"];
-		$record->DateRegistered = $metadata["Date Registered"];
+		$record->DateRegistered = strtotime(date('Y-m-d'));
 		$record->LastModified = $metadata["Last Modified"];
 		$record->DateReview = $metadata["Review Date"];
 		$record->Owner = $metadata["Owner"];

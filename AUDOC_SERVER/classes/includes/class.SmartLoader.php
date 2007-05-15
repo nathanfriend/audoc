@@ -25,6 +25,7 @@
 			$ldr = new SmartLoader();
 			$ldr->setCacheFilename('cache/smartloader_cache.php');
 			$ldr->addDir("classes");
+			$ldr->addDir("import");
 			$ldr->setClassFileEndings(array('.php'));
 			$ldr->setIgnoreHiddenFiles(true);
 		}
