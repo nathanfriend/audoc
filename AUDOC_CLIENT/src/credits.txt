@@ -1,3 +1,7 @@
 GWT				- (c) Copyright Google, Inc. 2006.			- Apache 2.0 License
 Scriptaculous	- Copyright (c) 2005, 2006 Thomas Fuchs		- MIT License
 GWT-Widgets		- Eugine Levitov (and others, see CHANGES)	- Apache 2.0 License
+
+I would also like to thank Gabriel Hodges who worked
+on the original version of AuDoc.  This release is
+dedicated to you. RIP
