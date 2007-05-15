@@ -17,7 +17,9 @@
  */
 package com.audata.client.json;
 
+import com.audata.client.Language;
 import com.audata.client.feedback.SimpleDialog;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestTimeoutException;
@@ -27,13 +29,14 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 
 public abstract class BaseRequestCallback implements RequestCallback {
-
+    
+    	private static final Language LANG = (Language) GWT.create(Language.class);
 
 	public void onError(Request request, Throwable exception) {
 		if (exception instanceof RequestTimeoutException) {
-			SimpleDialog.displayDialog(SimpleDialog.TYPE_ERROR, "Timeout", "The request to the server timed out");
+			SimpleDialog.displayDialog(SimpleDialog.TYPE_ERROR, LANG.timeout_Text(), LANG.timeout_message_Text());
           } else {
-        	  SimpleDialog.displayDialog(SimpleDialog.TYPE_ERROR, "Error", exception.getMessage());
+        	  SimpleDialog.displayDialog(SimpleDialog.TYPE_ERROR, LANG.error_Text(), exception.getMessage());
           }
 	}
 	
@@ -46,15 +49,15 @@ public abstract class BaseRequestCallback implements RequestCallback {
 				
 				if(jObj.get("error").toString() != "null"){
 					//Window.alert(response.get("error").isString().stringValue());
-					SimpleDialog.displayDialog(SimpleDialog.TYPE_ERROR,"Error", jObj.get("error").isString().stringValue());
+					SimpleDialog.displayDialog(SimpleDialog.TYPE_ERROR,LANG.error_Text(), jObj.get("error").isString().stringValue());
 					jObj = null;
 				}
 			} catch (JSONException e) {
-				SimpleDialog.displayDialog(SimpleDialog.TYPE_ERROR, "Error", e.getMessage());
+				SimpleDialog.displayDialog(SimpleDialog.TYPE_ERROR, LANG.error_Text(), e.getMessage());
 				jObj = null;
 			}		
 		}else{
-			SimpleDialog.displayDialog(SimpleDialog.TYPE_ERROR, "Error", "Malformed server response: \n" + responseText);
+			SimpleDialog.displayDialog(SimpleDialog.TYPE_ERROR, LANG.error_Text(), LANG.malformed_Text() + " \n" + responseText);
 			response = null;
 		}
 		return jObj;
