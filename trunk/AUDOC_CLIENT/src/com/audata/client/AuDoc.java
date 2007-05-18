@@ -408,8 +408,9 @@ public class AuDoc implements EntryPoint {
 	 * @return String The server URL 
 	 */
 	private String getURL(){
+	    	String folder = LANG.app_name_Text().toUpperCase() + "_SERVER/";
 		Location location = WindowUtils.getLocation();
-		String ret = "http://" + location.getHost() + "/AUDOC_SERVER/";
+		String ret = "http://" + location.getHost() + "/" + folder;
 		return ret;
 	}
 }
