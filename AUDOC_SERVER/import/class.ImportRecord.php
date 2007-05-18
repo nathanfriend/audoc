@@ -364,7 +364,8 @@ class ImportRecord
 					break;
 				case UDF::TYPE_KEYWORD:
 					$udf->Type = UDF::TYPE_KEYWORD;
-					$keyword = $this->isKeyword($udfdef->KeywordHierarchy, $value);
+					//$keyword = $this->isKeyword($udfdef->KeywordHierarchy, $value);
+					$keyword = $this->isKeywordPath($udfdef->KeywordHierarchy, $value);
 					if($keyword !== false){
 						$udf->ValueKeyword = $keyword;
 					}else{
@@ -407,7 +408,6 @@ class ImportRecord
 		$record->RecordNumber = $metadata["Record Number"];
 		$record->Title = $metadata["Title"];
 		$record->Classification = $metadata["Classification"];
-		echo "Classification: " . $metadata["Classification"]->Value . "\n";
 		$record->DateCreated = $metadata["Date Created"];
 		$record->DateRegistered = strtotime(date('Y-m-d'));
 		$record->LastModified = $metadata["Last Modified"];
@@ -421,6 +421,45 @@ class ImportRecord
 		$record->Caveats = $metadata["Caveats"];
 		return $record;
 	}
+
+	/**
+	 * Returns a KeywordData object if the string is a valid
+	 * Keyword Path or false if it is invalid.
+	 */	
+	private function isKeywordPath($kwh, $keywordpath){
+		//check if it is in the cache first
+		if(isset($this->keywords[$keywordpath])){
+			return $this->keywords[$keywordpath];
+		}else{
+			//extract this keyword
+			$sections = explode("-", $keywordpath);
+			//strip any spaces
+			for($i=0;$i<count($sections);$i++){
+				$sections[$i] = trim($sections[$i]);
+			}
+			$keyword = $sections[count($sections)-1];
+			$res = $this->connection->find("FROM KeywordData WHERE Value = ? AND Hierarchy.uuid = ?", $keyword, $kwh->uuid);
+			if(count($res) > 0){
+				foreach($res as $k){
+					if($k->getHierarchy() == $keywordpath){
+						//add it to the cache
+						$this->keywords[$keywordpath] = $k;
+					}
+				}
+				//did we find it?
+				if(isset($this->keywords[$keywordpath])){
+					//yes!!
+					return $this->keywords[$keywordpath];
+				}else{
+					//no :(
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}
+	}
+	
 
 }
 ?>
