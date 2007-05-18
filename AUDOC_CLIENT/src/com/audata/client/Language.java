@@ -27,6 +27,7 @@ import com.google.gwt.i18n.client.Constants;
  */
 public interface Language extends Constants {
 	String home_Text();
+	String app_name_Text();
 	String welcome_Text();
 	String username_Text();
 	String password_Text();
