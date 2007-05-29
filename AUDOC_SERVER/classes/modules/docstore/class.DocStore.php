@@ -226,15 +226,14 @@ class DocStore implements iModule{
 	private function getRevisions($recid){ 
 		$ret=null;
 		$record = $this->connection->find("from Record where uuid=?", $recid);
-		$ret['Document'] = array();
-		if (count($record < 1)){
+		if (count($record) < 1){
 			throw new Exception("Invalid record uuid");
 		}
 		$record = $record[0];
 		if (count($record->Documents) > 0){
 			$ret = $record->Documents;
 		}
-		$this->microCore->callModuleFunc("logging", "addItem", array("revisions associated with record $uuid retrieved",Logging::VERBOSITY_NORMAL));
+		$this->microCore->callModuleFunc("logging", "addItem", array("revisions associated with record $recid retrieved",Logging::VERBOSITY_NORMAL));
 		return $ret;	
 	}
 	

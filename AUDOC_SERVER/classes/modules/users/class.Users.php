@@ -369,7 +369,8 @@ class Users implements iModule{
 	  private function getUsers(){
 		$conn = $this->microCore->getConnection();
 		$this->microCore->callModuleFunc("logging", "addItem", array("Got list of Users", Logging::VERBOSITY_NORMAL));
-		return $conn->getAll("User");
+		//return $conn->getAll("User");
+		return $conn->find("FROM User Where 1=1 order by Forename");
 	  }
 	  
 	  private function setPassword($uuid, $password){

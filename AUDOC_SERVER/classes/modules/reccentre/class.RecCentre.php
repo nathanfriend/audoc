@@ -71,7 +71,7 @@ class RecCentre implements iModule{
 				break;
 			case 'checkIn':
 				if (count($params) == 1){
-					$ret = $this->checkIn($params[0], $params[1]);
+					$ret = $this->checkIn($params[0]);
 				}else{
 					throw new Exception("the method RecCentre.CheckIn requires 2 parameters");
 				}

@@ -129,6 +129,9 @@ class Parser {
  				case "Notes":
  					return UDF::TYPE_STRING;
  					break;
+ 				case "CheckedOutDate":
+ 					return UDF::TYPE_DATE;
+ 					break;
  				default:
  					return UDF::TYPE_STRING;
  					break;		

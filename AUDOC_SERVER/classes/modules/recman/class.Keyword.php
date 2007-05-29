@@ -150,6 +150,7 @@ class Keyword {
 		 
 		 if($parent == null){
 		 	$kwh->TopLevel[] = $item;
+		 	$con->commit($kwh);
 		 } 
 		 
 		 return $item;

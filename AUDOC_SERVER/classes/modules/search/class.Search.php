@@ -95,22 +95,22 @@ class Search implements iModule{
 		$method = strtolower($method);
 		switch($method){
 			case 'rawsearch':
-				if(count($params) == 1){
-					$ret = $this->rawsearch($params[0]);
+				if(count($params) == 3){
+					$ret = $this->rawsearch($params[0],$params[1],$params[2]);
 				}else{
 					throw new Exception("The method Search.rawSearch requires more parameters");
 				}
 				break;
 			case 'quicksearch':
-				if(count($params) == 1){
-					$ret = $this->quickSearch($params[0]);
+				if(count($params) == 3){
+					$ret = $this->quickSearch($params[0],$params[1], $params[2]);
 				}else{
 					throw new Exception("The method Search.quicksearch requires more parameters");
 				}
 				break;
 			case 'complexsearch':
-				if(count($params) == 1){
-					$ret = $this->complexSearch($params[0]);
+				if(count($params) == 3){
+					$ret = $this->complexSearch($params[0],$params[1], $params[2]);
 				}else{
 					throw new Exception("The method Search.complexSearch requires more parameters");
 				}
@@ -126,8 +126,8 @@ class Search implements iModule{
 				$ret = $this->getSavedSearches();
 				break;
 			case 'runsavedsearch':
-				if(count($params) == 1){
-					$ret = $this->runSavedSearch($params[0]);
+				if(count($params) == 3){
+					$ret = $this->runSavedSearch($params[0],$params[1], $params[2]);
 				}else{
 					throw new Exception("The method Search.runSaved Search requires one parameter");
 				}
@@ -150,7 +150,7 @@ class Search implements iModule{
   	* All other functions call this one to perform the actual search
   	* This function also added security level and caveat contraints
   	*/
-	private function rawsearch($query){
+	private function rawsearch($query, $offset, $isCount){
 		//add user security level constraints
 	
 		$query .=  " AND SecLevel.Level <= " . $_SESSION['SecLevel'];
@@ -163,6 +163,7 @@ class Search implements iModule{
 		}else{
 			$this->caveats = array();
 		}
+		
 		//extract caveats that the user does not have
 		$notPresentCavs = array_diff($this->caveats, $_SESSION['Caveats']);
 		
@@ -178,14 +179,20 @@ class Search implements iModule{
 			}
 		}
 		//throw new Exception("QUERY: " . $query);
-		
+		if(!$isCount){
+			$query .= " LIMIT $offset, 20";
+		} 
 		//add query to logs if we are using the paranoid logging setting
 		$this->microCore->callModuleFunc("Logging", "addItem", array("quick search using: $query", Logging::VERBOSITY_HIGH));
 		
 		//perform the search
 		$con = $this->microCore->getConnection();
 		$records = $con->find($query);
-		return $records;
+		if($isCount){
+			return count($records);
+		}else{
+			return $records;
+		}
 	}
 	
 	/**
@@ -194,7 +201,7 @@ class Search implements iModule{
 	 * Title
 	 * Notes
 	 */
-	private function quickSearch($searchString){
+	private function quickSearch($searchString, $offset, $isCount){
 		//split out words
 		$words = explode(" ", $searchString);
 		$query = "from Record where ";
@@ -206,23 +213,20 @@ class Search implements iModule{
 		}
 		//strip last and
 		$query = substr($query,0,-4);
-		$ret = $this->rawsearch($query);
-		//if ($ret){
-			return $ret;
-		//}
-		//throw new Exception("Invalid record search syntax");
+		$ret = $this->rawsearch($query, $offset, $isCount);
+		return $ret;
 	}
 	
 	/**
 	 * Performs more complex searches
 	 */
-	 private function complexSearch($criteria){
+	 private function complexSearch($criteria, $offset, $isCount){
 		 //parse $criteria
 		 if (!isset($this->parser)){
 			$this->parser = new Parser($this->microCore);
 		 }
 		 $query = $this->parser->parse($criteria);
-		 $results = $this->rawsearch($query);
+		 $results = $this->rawsearch($query, $offset, $isCount);
 		 return $results;
 		 //search with constructed query string
 	 }
@@ -260,7 +264,7 @@ class Search implements iModule{
 	  /**
 	   * Runs the specified saved search
 	   */
-	   private function runSavedSearch($uuid){
+	   private function runSavedSearch($uuid, $offset, $isCount){
 		   $con = $this->microCore->getConnection();
 		   $sS = $con->find('from SavedSearch where uuid=?',$uuid);
 		   if(count($sS) < 1){
@@ -276,7 +280,7 @@ class Search implements iModule{
 		   		$criteria[] = $token;
 		   		$token = strtok("|");
 		   }
-		   return $this->complexsearch($criteria);
+		   return $this->rawsearch($criteria, $offset, $isCount);
 	   }
 	   
 	   /**

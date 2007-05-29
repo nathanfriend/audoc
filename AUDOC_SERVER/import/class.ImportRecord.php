@@ -42,6 +42,7 @@ class ImportRecord
 	private $caveats = array();
 	private $classes = array();
 	private $keywords = array();
+	private $users = array();
 	
 	/** 
 	 * Public contructor. Takes an ezpdo manager connection
@@ -74,6 +75,7 @@ class ImportRecord
 				$record = $this->createRecord($metadata);
 				if ($this->connection->commit($record)){
 					$this->records++;
+					echo "Record {$this->records} created \n";
 				}else{
 					$this->errors++;
 					fwrite($this->logfile, "Unable to commit record: Row {$this->rows}\n");
@@ -109,15 +111,35 @@ class ImportRecord
 				case "Date Registered":
 				case "Last Modified":
 				case "Review Date":
+				case "Checked Out Date":
 					//date
-					$d = $this->isDate($value);
-					if($d !== false){
-						$metadata[$field] = $d;
+					if($value != ""){
+						$d = $this->isDate($value);
+						if($d !== false){
+							$metadata[$field] = $d;
+						}else{
+							$this->errors++;
+							$hasErrors = true;
+							fwrite($this->logfile, "Invalid Date: Row {$this->rows}, Field: $field, Value: $value\n");
+						}
 					}else{
-						$this->errors++;
-						$hasErrors = true;
-						fwrite($this->logfile, "Invalid Date: Row {$this->rows}, Field: $field, Value: $value\n");
+						$metadata[$field] = null;
 					}
+				break;
+				case "Checked Out To":
+					if($value != ""){
+						$u = $this->isUser($value);
+						if($u !== false){
+							$metadata[$field] = $u;
+						}else{
+							$this->errors++;
+							$hasErrors = true;
+							fwrite($this->logfile, "Invalid User: Row {$this->rows}, Field: $field, Value: $value\n");
+						}	
+					}else{
+						$metadata[$field] = null;
+					}
+										
 				break;
 				case "Record Number":
 					$rn = $this->isRecordNumber($value);
@@ -190,6 +212,7 @@ class ImportRecord
 					}else{
 						$this->errors++;
 						$hasErrors = true;
+						fwrite($this->logfile, "Record Type Not Specified: Row {$this->rows}, Field: $field, Value: $value\n");
 					}
 				break;
 			}
@@ -275,7 +298,22 @@ class ImportRecord
 			}
 		}
 	}
-	
+
+	private function isUser($username){
+		//check if it is in the cache first
+		if(isset($this->users[$username])){
+			return $this->users[$username];
+		}else{
+			$users = $this->connection->find("FROM User WHERE UserName ==?", $username);
+			if(count($users) > 0){
+				//add it to the cache
+				$this->users[$username] = $users[0];
+				return $users[0];
+			}else{
+				return false;
+			}
+		}
+	}	
 	/**
 	 * Returns a Classification object if the string is a valid
 	 * Classification or false if it is invalid.
@@ -302,12 +340,13 @@ class ImportRecord
 	 * Classification Path or false if it is invalid.
 	 */	
 	private function isClassPath($classpath){
+		$classpath = trim($classpath);
 		//check if it is in the cache first
 		if(isset($this->classes[$classpath])){
 			return $this->classes[$classpath];
 		}else{
 			//extract this class
-			$sections = explode("-", $classpath);
+			$sections = explode(" - ", $classpath);
 			//strip any spaces
 			for($i=0;$i<count($sections);$i++){
 				$sections[$i] = trim($sections[$i]);
@@ -412,13 +451,17 @@ class ImportRecord
 		$record->DateRegistered = strtotime(date('Y-m-d'));
 		$record->LastModified = $metadata["Last Modified"];
 		$record->DateReview = $metadata["Review Date"];
+		$record->CheckedOutDate = $metadata["Checked Out Date"];
+		$record->CheckedOutTo = $metadata["Checked Out To"];
 		$record->Owner = $metadata["Owner"];
 		$record->Author = $metadata["Author"];
 		$record->Notes = $metadata["Notes"];
 		$record->RecordType = $metadata["Record Type"];
 		$record->UDFs = $metadata["UDFs"];
 		$record->SecLevel = $metadata["SecLevel"];
-		$record->Caveats = $metadata["Caveats"];
+		if(isset($metadata["Caveats"])){
+			$record->Caveats = $metadata["Caveats"];
+		}
 		return $record;
 	}
 
@@ -427,12 +470,13 @@ class ImportRecord
 	 * Keyword Path or false if it is invalid.
 	 */	
 	private function isKeywordPath($kwh, $keywordpath){
+		$keywordpath = trim($keywordpath);
 		//check if it is in the cache first
 		if(isset($this->keywords[$keywordpath])){
 			return $this->keywords[$keywordpath];
 		}else{
 			//extract this keyword
-			$sections = explode("-", $keywordpath);
+			$sections = explode(" - ", $keywordpath);
 			//strip any spaces
 			for($i=0;$i<count($sections);$i++){
 				$sections[$i] = trim($sections[$i]);

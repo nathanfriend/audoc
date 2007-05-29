@@ -24,6 +24,7 @@
  * @author	   Jonathan Moss <jon.moss@audata.co.uk>
  * @copyright  2007 Audata Limited   
  */
+define ("MODE", "import");
 if ($argc != 3 || $argv[1] == '--help') {
 	showHelp();
 	die();
@@ -43,7 +44,7 @@ if ($argc != 3 || $argv[1] == '--help') {
 				importRecords($argv[2]);
 				break;
 			case 'k':
-				//keyword import
+				importKWH($argv[2]);
 				break;
 			case 'c':
 				//classification import
@@ -75,4 +76,13 @@ function importRecords($path){
 	$importer = new ImportRecord($mc->getConnection());
 	$importer->importCSV($path);
 }
+
+function importKWH($path){
+	echo "Import Keywords from $path\n";
+	require_once("classes/includes/class.SmartLoader.php");
+	$mc = new MicroCore("config/configuration.conf");
+	$importer = new ImportKeywords($mc);
+	$importer->importCSV($path);
+}
+	
 ?>

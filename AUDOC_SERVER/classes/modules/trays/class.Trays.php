@@ -105,8 +105,8 @@ class Trays implements iModule{
 				}
 				break;
 			case 'getItems':
-				if(count($params) == 1){
-					$ret = $this->getItems($params[0]);
+				if(count($params) == 3){
+					$ret = $this->getItems($params[0], $params[1], $params[2]);
 				}else{
 					throw new Exception("The method Trays.getItems requires 1 parameter");
 				}
@@ -238,7 +238,7 @@ class Trays implements iModule{
 	  * Returns an array of records currently in the tray
 	  * specified
 	  */
-	 private function getItems($tray){
+	 private function getItems($tray, $offset, $isCount){
 		$con = $this->microCore->getConnection();
 		 
 		 //get Tray
@@ -251,10 +251,16 @@ class Trays implements iModule{
 			 throw new Exception("You are not the owner of the tray specified");
 		 }
 		 $this->microCore->callModuleFunc("logging", "addItem", array("contents of tray $tray->Name retrieved",Logging::VERBOSITY_HIGH));
-		 if (count($tray->Records) <= 0){
-			 return array();
+		 if($isCount){
+		 	return count($tray->Records);
 		 }else{
-			return $tray->Records; 
+		 	$ret = array();
+		 	for($i=$offset;$i<$offset+20;$i++){
+		 		if(isset($tray->Records[$i])){
+		 			$ret[] = $tray->Records[$i];
+		 		}
+		 	}
+		 	return $ret;
 		 }
 	 }
 	 
