@@ -115,11 +115,13 @@ public class HTMLButtonList extends Composite implements ClickListener{
 	public void clear(){
 		this.items.clear();
 		this.selected.clear();
+		this.paint();
 	}
 	
 	public void removeItem(int index){
 		this.items.remove(index);
 		this.selected.remove(index);
+		this.paint();
 	}
 	
 	public ArrayList getSelected(){

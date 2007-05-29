@@ -107,8 +107,10 @@ public class CommandClickListener implements ClickListener {
 			HashMap props = (HashMap)selected.custom;
 			String record = (String)props.get("uuid");
 			String rType = (String)props.get("RecordType");
-			String cot = (String)props.get("CheckedOutTo");
-			new Properties(this.parent, rType, record, cot); //shows itself to prevent resizing onscreen		
+			String cot = (String)props.get("CheckedOutTo");		
+			new RecordPropertiesDialog(this.parent, rType, record, cot);
+			
+			
 		}
 	}
 	

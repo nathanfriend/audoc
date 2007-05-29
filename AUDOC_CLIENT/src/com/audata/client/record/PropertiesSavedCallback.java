@@ -24,9 +24,9 @@ import com.google.gwt.json.client.JSONObject;
 
 public class PropertiesSavedCallback extends BaseRequestCallback {
 
-	private Properties parent;
+	private RecordPropertiesDialog parent;
 	
-	public PropertiesSavedCallback(Properties parent){
+	public PropertiesSavedCallback(RecordPropertiesDialog parent){
 		this.parent = parent;
 	}
 	

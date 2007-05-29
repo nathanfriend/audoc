@@ -27,9 +27,9 @@ import com.google.gwt.json.client.JSONObject;
 
 public class RecTypeCallback extends BaseRequestCallback {
 
-	private Properties parent;
+	private RecordPropertiesDialog parent;
 	
-	public RecTypeCallback(Properties parent){
+	public RecTypeCallback(RecordPropertiesDialog parent){
 		this.parent = parent;
 	}
 	

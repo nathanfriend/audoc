@@ -113,7 +113,7 @@ public class RapidBookingDialog extends DialogBox implements ClickListener, Call
 	    String template = "<span class=\"rapid_processed\">#0 #1</span>";
 	    this.processed = new HTMLButtonList("images/16x16/treerec.gif", template, false);
 	    this.processed.setWidth("100%");
-	    this.processed.setHeight("50px");
+	    this.processed.setHeight("75px");
 	    form.add(this.processed);
 	    
 	    
@@ -184,6 +184,7 @@ public class RapidBookingDialog extends DialogBox implements ClickListener, Call
 	    if(recnum == ""){
 		return;
 	    }else{
+		this.recnum.setText("");
 		if(this.checkin.isChecked()){
 		    //this is a checkin action
 		    String method = "reccentre.checkIn";

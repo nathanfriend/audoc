@@ -140,7 +140,6 @@ public class CheckinDialog extends DialogBox implements ClickListener, Callback,
 		JSONArray params = new JSONArray();
 		params.set(0, new JSONString(this.uuid));
 		AuDoc.jsonCall.asyncPost2("recman.checkin", params, new UpdateResponseHandler(this));
-		AuDoc.getInstance().updateStack(AuDoc.STACK_CHECKOUTS);
 	}
 	
 	private void saveDoc(){
@@ -149,6 +148,7 @@ public class CheckinDialog extends DialogBox implements ClickListener, Callback,
 	}
 	
 	public void onUpdate(){
+	    	AuDoc.getInstance().updateStack(AuDoc.STACK_CHECKOUTS);
 		if(this.undo.isChecked()){
 			this.hide();
 		}else{

@@ -202,4 +202,6 @@ public interface Language extends Constants {
 	String timeout_Text();
 	String timeout_message_Text();
 	String malformed_Text();
+	String version_Text();
+	String page_Text();
 }
