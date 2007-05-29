@@ -295,6 +295,9 @@ class MicroCore
 				$perm += MicroCore::PERM_ADMIN;
 			}
 		}
+		if(defined("MODE")){
+			$perm = MicroCore::PERM_BOTH;
+		}
 		//make sure the user has the permission to perform the task
 		
 		if ($mod->isPermitted($method, $perm)){
