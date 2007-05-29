@@ -19,6 +19,8 @@ package com.audata.client.trays;
 
 import com.audata.client.AuDoc;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONBoolean;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Widget;
@@ -38,6 +40,8 @@ public class TrayClickListener implements ClickListener {
 	public void onClick(Widget sender) {
 		JSONArray params = new JSONArray();
 		params.set(0, new JSONString(this.uuid));
+		params.set(1, new JSONNumber(0));
+		params.set(2, JSONBoolean.getInstance(false));
 		AuDoc.jsonCall.asyncPost2("trays.getItems", params, new ItemResponseListener(this.audoc, this.uuid, this.name));
 	}
 

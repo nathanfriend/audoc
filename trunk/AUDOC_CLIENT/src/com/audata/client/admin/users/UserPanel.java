@@ -82,7 +82,7 @@ public class UserPanel extends VerticalPanel implements UpdateListener, ClickLis
 		this.editUser = new Button(LANG.edit_Text());
 		this.editUser.addClickListener(this);
 		
-		this.delUser = new Button(LANG.edit_Text());
+		this.delUser = new Button(LANG.delete_Text());
 		this.delUser.addClickListener(this);
 		
 		this.setPassword = new Button(LANG.set_password_Text());

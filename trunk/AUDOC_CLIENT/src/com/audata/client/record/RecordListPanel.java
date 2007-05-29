@@ -27,17 +27,22 @@ import com.audata.client.widgets.CaptionButton;
 import com.audata.client.widgets.HTMLButtonList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONBoolean;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class RecordListPanel extends FocusPanel implements UpdateListener, KeyboardListener{
+public class RecordListPanel extends FocusPanel implements UpdateListener, KeyboardListener, ChangeListener{
 
 	private static final Language LANG = (Language) GWT.create(Language.class);
 	private VerticalPanel main;
@@ -47,6 +52,8 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 	private String subtitle;
 	private String uuid;
 	private int count;
+	private ListBox pages;
+	private Label countLabel;
 	
 	public RecordListPanel(String subtitle, JSONArray records, String method, JSONArray params){
 		this(subtitle, records, method, params, null, null);
@@ -58,7 +65,7 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 	
 	public RecordListPanel(String subtitle, JSONArray records, String method, JSONArray params, String uuid, String criteria){
 		this.main = new VerticalPanel();
-		this.count = records.size();
+		this.count = 0;
 		this.subtitle = subtitle;
 		this.method = method;
 		this.params = params;
@@ -74,11 +81,12 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 		l.addStyleName("audoc-sectionTitle");
 		title.add(l);
 		title.setCellHorizontalAlignment(l, HasAlignment.ALIGN_LEFT);
-		Label s = new Label(this.subtitle + "\n "+ LANG.rec_count_Text() +": " + this.count);
-		s.addStyleName("audoc-sectionSubTitle");
-		title.add(s);
-		title.setCellHorizontalAlignment(s, HasAlignment.ALIGN_RIGHT);
+		this.countLabel = new Label(this.subtitle + "\n "+ LANG.rec_count_Text() +": " + this.count);
+		this.countLabel.addStyleName("audoc-sectionSubTitle");
+		title.add(this.countLabel);
+		title.setCellHorizontalAlignment(this.countLabel, HasAlignment.ALIGN_RIGHT);
 		this.main.add(title);
+		this.getCount();
 		
 		if(criteria != null){
 			Label critLabel = new Label(LANG.criteria_Text()+": [" + criteria + "]");
@@ -86,7 +94,6 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 			critLabel.addStyleName("audoc-criteria");
 			this.main.add(critLabel);
 		}
-		
 		HorizontalPanel hp = new HorizontalPanel();
 		this.main.add(hp);
 		
@@ -101,14 +108,13 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 		//vp.setSpacing(4);
 		vp.setSize("100%","100%");
 		vp.add(this.buildMenu());
-		
 		String template = "<span class=\"audoc-record-title\">#0 [#1]</span><br/>" +
 							"<span class=\"audoc-record-class\">#2</span><br/>" +
 							"<span class=\"audoc-record-cot\">"+LANG.with_Text()+": #3<span>";
 		this.rList = new HTMLButtonList("images/48x48/rectypes.gif", template, true);
 		this.rList.addStyleName("audoc-recList");
 		vp.add(this.rList);
-		this.rList.setSize("100%", "100%");
+		this.rList.setSize("100%", "90%");
 		vp.setCellHeight(this.rList, "100%");
 		hp.add(vp);
 		this.addRecords(records);
@@ -133,16 +139,37 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 			if(rObj.containsKey("CheckedOutTo")){
 				cot = rObj.get("CheckedOutTo").isString().stringValue();
 			}
+			String checkDate = rObj.get("CheckedOutDate").isString().stringValue();
 			String date = rObj.get("DateCreated").isString().stringValue();
 			String recNum = rObj.get("RecordNumber").isString().stringValue();
 			String recType = rObj.get("RecordType").isString().stringValue();
 			Double documents = new Double(rObj.get("Documents").isNumber().getValue());
+			
+			//invotec specific bit
+			String user1 = AuDoc.getConfigItem("user1");
+			if(user1.equals("binnum")){
+			    JSONArray udfs = rObj.get("UDFs").isArray();
+			    for(int j=0; j<udfs.size();j++){
+				JSONObject u = udfs.get(j).isObject();
+				String name = u.get("Name").isString().stringValue();
+				if(name.equals("Bin Number")){
+				    Double b =  new Double(u.get("Value").isNumber().getValue());
+				    cls = "Bin Number: " + b.intValue();
+				}
+				if(name.equals("MBin Number")){
+				    Double b =  new Double(u.get("Value").isNumber().getValue());
+				    cls = "MBin Number: " + b.intValue();
+				}
+			    }
+			}
+			
 			date = date.substring(0,10);
 			custom.put("uuid", uuid);
 			custom.put("Title", title);
 			custom.put("class", cls);
 			custom.put("DateCreated", date);
 			custom.put("CheckedOutTo", cot);
+			custom.put("CheckedOutDate", checkDate);
 			custom.put("RecordNumber", recNum);
 			custom.put("RecordType", recType);
 			custom.put("Documents", documents);
@@ -191,6 +218,15 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 		printButton.addClickListener(new CommandClickListener(this, CommandClickListener.COMMAND_PRINT));
 		printButton.setTitle(LANG.print_title_Text());
 		menu.add(printButton);
+		
+		Label pagesLabel = new Label(LANG.page_Text() + ": ");
+		pagesLabel.addStyleName("audoc-label");
+		menu.add(pagesLabel);
+		menu.setCellVerticalAlignment(pagesLabel, HasVerticalAlignment.ALIGN_MIDDLE);
+		this.pages = new ListBox();
+		this.pages.addChangeListener(this);
+		menu.add(this.pages);
+		menu.setCellVerticalAlignment(this.pages, HasVerticalAlignment.ALIGN_MIDDLE);
 		return menu;
 	}
 	
@@ -257,7 +293,7 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 			
 			//CaptionButton amendButton = new CaptionButton("images/48x48/props.gif", "Change Record Number", CaptionButton.CAPTION_EAST);
 			CaptionButton amendButton = new CaptionButton();
-			amendButton.setImageUrl("images/48x48/props.gif");
+			amendButton.setImageUrl("images/16x16/props.gif");
 			amendButton.setCaptionText(LANG.change_rec_num_Text());
 			amendButton.addClickListener(new CommandClickListener(this, CommandClickListener.COMMAND_AMEND));
 			amendButton.setTitle(LANG.change_rec_num_title_Text());
@@ -266,7 +302,7 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 			
 			//CaptionButton checkinButton = new CaptionButton("images/48x48/error.gif", "Undo Checkout", CaptionButton.CAPTION_EAST);
 			CaptionButton checkinButton = new CaptionButton();
-			checkinButton.setImageUrl("images/48x48/error.gif");
+			checkinButton.setImageUrl("images/16x16/error.gif");
 			checkinButton.setCaptionText(LANG.undo_checkout_Text());
 			checkinButton.addClickListener(new CommandClickListener(this, CommandClickListener.COMMAND_CHECKIN));
 			checkinButton.setTitle(LANG.check_in_msg_Text());
@@ -275,7 +311,7 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 			
 			//CaptionButton delButton = new CaptionButton("images/48x48/logout.gif", "Delete", CaptionButton.CAPTION_EAST);
 			CaptionButton delButton = new CaptionButton();
-			delButton.setImageUrl("images/48x48/logout.gif");
+			delButton.setImageUrl("images/16x16/logout.gif");
 			delButton.setCaptionText(LANG.del_rec_Text());
 			delButton.addClickListener(new CommandClickListener(this, CommandClickListener.COMMAND_DEL));
 			delButton.setTitle(LANG.del_rec_title_Text());
@@ -286,8 +322,15 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 	}
 	
 	public void onUpdate(){
+	    	this.params.set(2, JSONBoolean.getInstance(false));
 		this.rList.clear();
 		AuDoc.jsonCall.asyncPost2(this.method, this.params, new RefreshCallback(this));
+	}
+	
+	private void getCount(){
+	    this.params.set(1, new JSONNumber(0));
+	    this.params.set(2, JSONBoolean.getInstance(true));
+	    AuDoc.jsonCall.asyncPost2(this.method, this.params, new CountHandler(this));
 	}
 	
 	public void onKeyPress(Widget sender, char keyCode, int modifiers) {
@@ -306,5 +349,26 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 	
 	public Panel getRecordList(){
 		return this.rList.getRecordListPanel();
+	}
+	
+	public void setCount(int count){
+	    this.count = count;
+	    this.countLabel.setText(this.subtitle + "\n "+ LANG.rec_count_Text() + ": " + this.count);
+	    Double pages = new Double(count / 20);
+	    if((pages.doubleValue() / pages.intValue()) > 0){
+		pages = new Double(pages.doubleValue() + 1);
+	    }
+	    this.pages.clear();
+	    for(int i=0;i<pages.intValue();i++){
+		this.pages.addItem(Integer.toString(i));
+	    }
+	}
+	
+	public void onChange(Widget sender){
+	    String val = this.pages.getItemText(this.pages.getSelectedIndex());
+	    int offset = Integer.parseInt(val) * 20;
+	    this.params.set(1, new JSONNumber(offset));
+	    this.params.set(2, JSONBoolean.getInstance(false));
+	    this.onUpdate();
 	}
 }

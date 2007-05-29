@@ -129,7 +129,7 @@ public class AuDoc implements EntryPoint {
 		if(AuDoc.instance == null){
 			AuDoc.instance = this;
 		}
-		
+
 		//Set window title
 		Window.setTitle(LANG.site_title_Text());
 		

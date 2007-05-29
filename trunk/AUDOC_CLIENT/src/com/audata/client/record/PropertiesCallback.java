@@ -28,9 +28,9 @@ import com.google.gwt.json.client.JSONObject;
 
 public class PropertiesCallback extends BaseRequestCallback {
 
-	private Properties parent;
+	private RecordPropertiesDialog parent;
 	
-	public PropertiesCallback(Properties parent){
+	public PropertiesCallback(RecordPropertiesDialog parent){
 		this.parent = parent;
 	}
 	
@@ -57,9 +57,16 @@ public class PropertiesCallback extends BaseRequestCallback {
 					dc = dc.substring(0, pos);
 				}
 				record.put("Date Created", dc);
+				String cod = rec.get("CheckedOutDate").isString().stringValue();
+				int pos2 = cod.indexOf("T");
+				if(pos2 != -1){
+				    cod = cod.substring(0, pos2);
+				}
+				record.put("Checked Out Date", cod);
 				record.put("Owner", rec.get("Owner").isString().stringValue());
 				record.put("Author", rec.get("Author").isString().stringValue());
 				record.put("Notes", rec.get("Notes").isString().stringValue());
+				
 				
 				//udf fields
 				JSONArray udfs = rec.get("UDFs").isArray();

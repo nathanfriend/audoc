@@ -1,8 +1,7 @@
-/*
+/* +----------------------------------------------------------------------+
+ * | AUDOC_CLIENT                                                      |
  * +----------------------------------------------------------------------+
- * | AuDoc 2                                                              |
- * +----------------------------------------------------------------------+
- * | Copyright (c) 2004-2007 Audata Ltd                                   |
+ * | Copyright (c) 2007 Audata Ltd                                     |
  * +----------------------------------------------------------------------+
  * | This source file is subject to version 2 of the Gnu Public License,  |
  * | that is bundled with this package in the file License.txt, and is    |
@@ -12,29 +11,26 @@
  * | obtain it through the world-wide-web, please send a note to          |
  * | support@audata.co.uk so we can mail you a copy immediately.          |
  * +----------------------------------------------------------------------+
- * | Authors: Jonathan Moss <jon.moss@audata.co.uk>                       |
- * +----------------------------------------------------------------------+ 
+ * | Authors: jonm													  |
+ * +----------------------------------------------------------------------+
  */
-package com.audata.client.rapidbooking;
+package com.audata.client.record;
 
-import com.audata.client.Language;
 import com.audata.client.json.BaseRequestCallback;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 
 /**
  * @author jonm
  *
  */
-public class BookingResponseHandler extends BaseRequestCallback {
+public class RevisionHandler extends BaseRequestCallback {
 
-    private static final Language LANG = (Language) GWT.create(Language.class);
+    private Revisions parent;
     
-    private RapidBookingDialog parent;
-	
-    public BookingResponseHandler(RapidBookingDialog parent){
+    public RevisionHandler(Revisions parent){
 	this.parent = parent;
     }
     
@@ -42,23 +38,24 @@ public class BookingResponseHandler extends BaseRequestCallback {
      * @see com.google.gwt.http.client.RequestCallback#onResponseReceived(com.google.gwt.http.client.Request, com.google.gwt.http.client.Response)
      */
     public void onResponseReceived(Request request, Response response) {
-	JSONObject jObj = this.parseJSON(response);
-	if(jObj != null){
-		JSONObject record = jObj.get("result").isObject();
-			this.addRecord(record);
+	// TODO Auto-generated method stub
+	JSONObject rObj = this.parseJSON(response);
+	if(rObj != null){
+	    JSONArray docs = rObj.get("result").isArray();
+	    if(docs != null){
+		this.extractRevision(docs);
+	    }
 	}
     }
     
-    private void addRecord(JSONObject record){
-	String recnum = record.get("RecordNumber").isString().stringValue();
-	String cot = record.get("CheckedOutTo").isString().stringValue();
-	String action = "";
-	if((cot == "") || (cot == null)){
-	    action = LANG.checked_in_Text();
-	}else{
-	    action = LANG.checked_out_Text() + " " + cot;
+    private void extractRevision(JSONArray docs){
+	for(int i=0;i<docs.size();i++){
+	   JSONObject doc = docs.get(i).isObject();
+	   String uuid = doc.get("uuid").isString().stringValue();
+	   int revision = (int)doc.get("Revision").isNumber().getValue();
+	   String name = doc.get("Name").isString().stringValue();
+	   this.parent.addRevision(uuid, revision, name);
 	}
-	this.parent.addProcess(recnum, action);
     }
 
 }

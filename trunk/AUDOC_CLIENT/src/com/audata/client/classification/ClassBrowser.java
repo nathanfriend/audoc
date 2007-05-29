@@ -23,6 +23,8 @@ import com.audata.client.util.TreeNodeType;
 import com.audata.client.widgets.CaptionButton;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONBoolean;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Label;
@@ -135,6 +137,8 @@ public class ClassBrowser extends VerticalPanel implements TreeListener{
 		String query = "FROM Record WHERE Classification.uuid = '" + uuid +"'";
 		JSONArray params = new JSONArray();
 		params.set(0, new JSONString(query));
+		params.set(1, new JSONNumber(0));
+		params.set(2, JSONBoolean.getInstance(false));
 		AuDoc.jsonCall.asyncPost2(method, params, new RecordResponseHandler(this.audoc, query, name));
 	}
 	

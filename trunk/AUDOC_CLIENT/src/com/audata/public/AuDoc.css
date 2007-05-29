@@ -72,7 +72,7 @@
 	font-weight: bold;
 	color: #204a87;
 }
-.audoc-levels, .audoc-caveats, .audoc-users, .audoc-trays, .audoc-fieldTree{
+.audoc-levels, .audoc-caveats, .audoc-users, .audoc-trays, .audoc-fieldTree, .audoc-revisions{
 	padding: 5px;
 	border-style: solid;
 	border-width: 1px;
@@ -406,4 +406,31 @@ img {
 
 .rapid_processed{
 	font-size: 70%;
+}
+
+.audoc-revision{
+	font-size: 70%;
+}
+.gwt-TabBar { 
+	border-bottom: 1px solid #999999;
+ }
+.gwt-TabBar .gwt-TabBarFirst {}
+.gwt-TabBar .gwt-TabBarRest {}
+.gwt-TabBar .gwt-TabBarItem {
+	border: 1px solid #999999;
+	border-top-color: #cccccc;
+	border-left-color: #cccccc;
+	border-bottom: 0px;
+	padding: 0.1em;
+	color: #333333;
+	font-size: 75%;
+	font-weight: bold;
+	font-family:arial,sans-serif;
+}
+.gwt-TabBar .gwt-TabBarItem-selected {
+	border: 3px double #999999;
+	border-top-color: #cccccc;
+	border-left-color: #cccccc;
+	border-bottom: 0px;
+	background-color: #ffffff;
 }

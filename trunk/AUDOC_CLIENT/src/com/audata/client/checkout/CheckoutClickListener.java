@@ -17,7 +17,7 @@
  */
 package com.audata.client.checkout;
 
-import com.audata.client.record.Properties;
+import com.audata.client.record.RecordPropertiesDialog;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -36,7 +36,7 @@ public class CheckoutClickListener implements ClickListener {
 	}
 	
 	public void onClick(Widget sender) {
-		new Properties(this.parent, this.recType, this.uuid, this.cot);
+		new RecordPropertiesDialog(this.parent, this.recType, this.uuid, this.cot);
 	}
 
 }
