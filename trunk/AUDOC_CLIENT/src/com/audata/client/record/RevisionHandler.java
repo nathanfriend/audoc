@@ -34,11 +34,12 @@ public class RevisionHandler extends BaseRequestCallback {
 	this.parent = parent;
     }
     
-    /* (non-Javadoc)
-     * @see com.google.gwt.http.client.RequestCallback#onResponseReceived(com.google.gwt.http.client.Request, com.google.gwt.http.client.Response)
+    /**
+     * Called when JSON response is received.
+     * @param request The original request
+     * @param response The response received
      */
     public void onResponseReceived(Request request, Response response) {
-	// TODO Auto-generated method stub
 	JSONObject rObj = this.parseJSON(response);
 	if(rObj != null){
 	    JSONArray docs = rObj.get("result").isArray();
@@ -48,6 +49,11 @@ public class RevisionHandler extends BaseRequestCallback {
 	}
     }
     
+    /**
+     * Extract the revisions and passes them back to the Revisions
+     * panel 
+     * @param docs An array of revisions as JSON Objects
+     */
     private void extractRevision(JSONArray docs){
 	for(int i=0;i<docs.size();i++){
 	   JSONObject doc = docs.get(i).isObject();
