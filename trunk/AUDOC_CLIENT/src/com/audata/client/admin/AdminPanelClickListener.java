@@ -19,13 +19,6 @@ package com.audata.client.admin;
 
 import com.audata.client.Language;
 import com.audata.client.AuDoc;
-import com.audata.client.admin.classification.ClassificationPanel;
-import com.audata.client.admin.keywords.KeywordPanel;
-import com.audata.client.admin.rectype.RecTypePanel;
-import com.audata.client.admin.reports.ReportingPanel;
-import com.audata.client.admin.security.SecurityPanel;
-import com.audata.client.admin.udf.UDFPanel;
-import com.audata.client.admin.users.UserPanel;
 import com.audata.client.feedback.SimpleDialog;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.ClickListener;
