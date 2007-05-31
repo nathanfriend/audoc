@@ -317,7 +317,6 @@ class ImportRecord
 	/**
 	 * Returns a Classification object if the string is a valid
 	 * Classification or false if it is invalid.
-	 * TODO: add support for more than one class called the same thing (based on unique path)
 	 */
 	private function isClass($class){
 		//check if it is in the cache first
