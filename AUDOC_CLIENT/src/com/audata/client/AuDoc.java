@@ -79,23 +79,22 @@ public class AuDoc implements EntryPoint {
 	
 	private static AuDoc instance;
 
-	private LoginDialog ld;
+	private LoginDialog loginDialog;
 	
 	private QuickSearchPanel quicksearch;
 
-	private TrayPanel tp;
+	private TrayPanel trayPanel;
 	
-	private SavedSearchPanel ss;
+	private SavedSearchPanel savedSearchPanel;
 
-	private ClassBrowser bp;
+	private ClassBrowser classBrowser;
 
-	private CheckoutPanel cp;
+	private CheckoutPanel checkoutsPanel;
 
 	private CaptionButton adminButton;
 
 	private ScrollPanel main;
 
-	// private VerticalPanel main;
 
 	public static State state;
 
@@ -164,7 +163,7 @@ public class AuDoc implements EntryPoint {
 		this.main.add(new HomePanel());
 
 		//build login dialog and reset app to starting state
-		this.ld = new LoginDialog(this);
+		this.loginDialog = new LoginDialog(this);
 		this.resetApp();
 	}
 
@@ -245,17 +244,17 @@ public class AuDoc implements EntryPoint {
 		StackPanel panel = new StackPanel();
 		panel.setWidth("180px");
 		panel.setHeight("100%");
-		this.bp = new ClassBrowser(this, "180px", "100%");
-		panel.add(this.bp, LANG.browse_Text());
+		this.classBrowser = new ClassBrowser(this, "180px", "100%");
+		panel.add(this.classBrowser, LANG.browse_Text());
 
-		this.ss = new SavedSearchPanel(this);
-		panel.add(this.ss, LANG.saved_searches_Text());
+		this.savedSearchPanel = new SavedSearchPanel(this);
+		panel.add(this.savedSearchPanel, LANG.saved_searches_Text());
 
-		this.tp = new TrayPanel(this);
-		panel.add(this.tp, LANG.trays_Text());
+		this.trayPanel = new TrayPanel(this);
+		panel.add(this.trayPanel, LANG.trays_Text());
 
-		this.cp = new CheckoutPanel(this);
-		panel.add(this.cp, LANG.checkouts_Text());
+		this.checkoutsPanel = new CheckoutPanel(this);
+		panel.add(this.checkoutsPanel, LANG.checkouts_Text());
 		return panel;
 	}
 
@@ -287,10 +286,10 @@ public class AuDoc implements EntryPoint {
 			this.adminButton.setVisible(true);
 		}
 
-		this.bp.onUpdate();
-		this.tp.onUpdate();
-		this.cp.onUpdate();
-		this.ss.onUpdate();
+		this.classBrowser.onUpdate();
+		this.trayPanel.onUpdate();
+		this.checkoutsPanel.onUpdate();
+		this.savedSearchPanel.onUpdate();
 	}
 
 	/**
@@ -313,12 +312,12 @@ public class AuDoc implements EntryPoint {
 		this.adminButton.setVisible(false);
 		this.quicksearch.onLogout();
 		
-		this.bp.onLogout();
-		this.tp.onLogout();
-		this.cp.onLogout();
-		this.ss.onLogout();
+		this.classBrowser.onLogout();
+		this.trayPanel.onLogout();
+		this.checkoutsPanel.onLogout();
+		this.savedSearchPanel.onLogout();
 
-		this.ld.show();
+		this.loginDialog.show();
 		}
 
 	/**
@@ -380,23 +379,23 @@ public class AuDoc implements EntryPoint {
 	public void updateStack(int stack){
 		switch(stack){
 		case AuDoc.STACK_CHECKOUTS:
-			this.cp.onUpdate();
+			this.checkoutsPanel.onUpdate();
 			break;
 		case AuDoc.STACK_CLASSIFICATION:
-			this.bp.onUpdate();
+			this.classBrowser.onUpdate();
 			break;
 		case AuDoc.STACK_SAVEDSEARCHES:
-			this.ss.onUpdate();
+			this.savedSearchPanel.onUpdate();
 			break;
 		case AuDoc.STACK_TRAYS:
-			this.tp.onUpdate();
+			this.trayPanel.onUpdate();
 			break;
 		case AuDoc.STACK_ALL:
 		default:
-			this.bp.onUpdate();
-			this.tp.onUpdate();
-			this.ss.onUpdate();
-			this.cp.onUpdate();
+			this.classBrowser.onUpdate();
+			this.trayPanel.onUpdate();
+			this.savedSearchPanel.onUpdate();
+			this.checkoutsPanel.onUpdate();
 			break;
 		}	
 	}

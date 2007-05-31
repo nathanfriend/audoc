@@ -43,7 +43,6 @@ public class CaveatClickListener implements ClickListener {
 	 * clicked
 	 */
 	public void onClick(Widget sender) {
-		// TODO Auto-generated method stub
 		HTMLButton widget = (HTMLButton)sender;
 		HashMap custom = (HashMap)widget.custom;
 		String name = (String)custom.get("name");
