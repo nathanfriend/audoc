@@ -1,0 +1,6 @@
+This folder holds the developer documentation for 
+the server component. To generate the documentation first
+ensure PHPDocumentor is installed then use:
+
+phpdoc -c phpdoc.ini
+
