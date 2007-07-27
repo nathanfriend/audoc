@@ -14,6 +14,6 @@ configItems["timeout"] = "500000";
 
 //available locales should be entered as 1 string in the format
 // <name>:<code>;<name>:<code>
-configItems["locales"] = "Italian:it";"English:en";
+configItems["locales"] = "English:en;Italian:it";
 
 configItems["user1"] = "binnum";
