@@ -73,7 +73,6 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 		this.setSize("100%", "100%");
 		this.main.setSize("100%", "100%");
 		this.main.setSpacing(4);
-		
 		HorizontalPanel title = new HorizontalPanel();
 		title.setSpacing(4);
 		title.setWidth("100%");
@@ -122,8 +121,9 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 		Panel cPanel = this.buildCommands();
 		
 		hp.add(cPanel);
-		cPanel.setWidth("100%");
-		//hp.setCellWidth(this.rList, "70%");
+		//cPanel.setWidth("150px");
+		hp.setCellWidth(cPanel, "250px");
+		hp.setCellWidth(this.rList, "100%");
 		this.add(main);
 		this.addKeyboardListener(this);
 	}
@@ -195,9 +195,13 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 	}
 	
 	private Panel buildMenu(){
+		HorizontalPanel menuContainer = new HorizontalPanel();
+		menuContainer.addStyleName("audoc-commandPanel");
+		menuContainer.setWidth("100%");
 		HorizontalPanel menu = new HorizontalPanel();
+		menuContainer.add(menu);
 		menu.setSpacing(4);
-		menu.addStyleName("audoc-commandPanel");
+		//menu.addStyleName("audoc-commandPanel");
 		//menu.setWidth("100%");
 		menu.setHorizontalAlignment(HasAlignment.ALIGN_LEFT);
 		
@@ -227,14 +231,14 @@ public class RecordListPanel extends FocusPanel implements UpdateListener, Keybo
 		this.pages.addChangeListener(this);
 		menu.add(this.pages);
 		menu.setCellVerticalAlignment(this.pages, HasVerticalAlignment.ALIGN_MIDDLE);
-		return menu;
+		return menuContainer;
 	}
 	
 	private Panel buildCommands(){
 		VerticalPanel cPanel = new VerticalPanel();
 		cPanel.setSpacing(4);
 		cPanel.addStyleName("audoc-commandPanel");
-		//cPanel.setWidth("100%");
+		cPanel.setWidth("100%");
 		cPanel.setHorizontalAlignment(HasAlignment.ALIGN_LEFT);
 		cPanel.setVerticalAlignment(HasAlignment.ALIGN_TOP);
 		Label cLabel = new Label(LANG.commands_Text());

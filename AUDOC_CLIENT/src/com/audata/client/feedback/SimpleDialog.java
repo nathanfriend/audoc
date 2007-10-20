@@ -54,7 +54,7 @@ public class SimpleDialog extends DialogBox implements ClickListener, Callback{
 	
 	public static void displayDialog(int type, String title, String message){
 		SimpleDialog d = new SimpleDialog(type, title, message, null);
-		d.setVisible(false); //prevents the dialog from displaying prematurely
+		//d.setVisible(false); //prevents the dialog from displaying prematurely
 		d.show();
 		Effect.slideDown(d);		
 	}

@@ -160,8 +160,9 @@ public class LoginDialog extends DialogBox implements ClickListener, Callback{
 	 * Overide parent show to integrate effects
 	 */
 	public void show(){
-		this.setVisible(false);
+		this.setPopupPosition(-400, -400);
 		super.show();
+		//this.setVisible(false);
 		Effect.appear(this);
 		int left = (Window.getClientWidth() / 2) - 150;
 		int top = (Window.getClientHeight() / 2) - 50;
