@@ -138,7 +138,7 @@ public class UserPanel extends VerticalPanel implements UpdateListener, ClickLis
 		
 		if (sender == this.newUser){
 			UserDialog dialog = new UserDialog(this);
-			dialog.setVisible(false);
+			//dialog.setVisible(false);
 			dialog.show();
 			int left = (Window.getClientWidth() / 2) - 150;
 			int top = (Window.getClientHeight() / 2) - 150;
@@ -150,7 +150,7 @@ public class UserPanel extends VerticalPanel implements UpdateListener, ClickLis
 		if (sender == this.editUser){
 			if(this.userUUID != ""){
 				UserDialog dialog = new UserDialog(this, this.userUUID, this.custom);
-				dialog.setVisible(false);
+				//dialog.setVisible(false);
 				dialog.show();
 				int left = (Window.getClientWidth() / 2) - 150;
 				int top = (Window.getClientHeight() / 2) - 150;

@@ -56,6 +56,7 @@ public class HomePanel extends Composite {
 	verticalPanel.add(html);
 	html.setStyleName("audoc-welcomeText");
 	setSize("100%", "100%");
+	verticalPanel.setCellVerticalAlignment(html, HasVerticalAlignment.ALIGN_BOTTOM);
     }
 
 }
