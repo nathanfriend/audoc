@@ -52,8 +52,6 @@ public class ClassBrowser extends VerticalPanel implements TreeListener{
 		this.setSize(width, height);
 		this.sp = new ScrollPanel();
 		
-		
-		
 		this.classes = new Tree();
 		this.classes.setImageBase("images/16x16/");
 		this.classes.addTreeListener(this);
