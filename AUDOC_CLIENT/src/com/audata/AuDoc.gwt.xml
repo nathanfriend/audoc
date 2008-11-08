@@ -1,14 +1,28 @@
 <module>
 
+	<!-- Inherit the core Web Toolkit stuff.                        -->
+	<inherits name='com.google.gwt.user.User' />
+
+	<!-- Inherit the default GWT style sheet.  You can change       -->
+	<!-- the theme of your GWT application by uncommenting          -->
+	<!-- any one of the following lines.                            -->
+	<inherits name='com.google.gwt.user.theme.standard.Standard' />
+	<!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
+
+	<!-- Other module inherits                                      -->
 	<!-- Inherit the core Web Toolkit stuff.                  -->
-	<inherits name='com.google.gwt.user.User'/>
-	<inherits name="com.google.gwt.i18n.I18N"/>
-	<inherits name="com.google.gwt.json.JSON"/>
-	<inherits name="com.google.gwt.http.HTTP"/>
-	<inherits name="org.gwtwidgets.WidgetLibrary"/>
-	
-	<!-- Specify the app entry point class.                   -->
-	<entry-point class='com.audata.client.AuDoc'/>
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name="com.google.gwt.i18n.I18N" />
+	<inherits name="com.google.gwt.json.JSON" />
+	<inherits name="com.google.gwt.http.HTTP" />
+	<inherits name="org.gwtwidgets.WidgetLibrary" />
+
+	<!-- Specify the app entry point class.                         -->
+	<entry-point class='com.audata.client.AuDoc' />
 	<!-- Inject config file -->
-  	<script src="config.js"/>
+	<script src="config.js" />
+	<!-- Specify the application specific style sheet.              -->
+	<stylesheet src='AuDoc.css' />
+
 </module>

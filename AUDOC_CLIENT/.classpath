@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="JUNIT_HOME/junit.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/jon/My Documents/Development/gwt-windows/gwt-user.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/jon/My Documents/Development/gwt-windows/gwt-widgets-0.1.5.jar"/>
+	<classpathentry kind="lib" path="/home/jon/lib/gwt-linux-1.5.3/gwt-user.jar"/>
+	<classpathentry kind="lib" path="/home/jon/lib/gwt-linux-1.5.3/gwt-widgets-0.2.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
