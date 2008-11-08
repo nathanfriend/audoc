@@ -353,9 +353,10 @@ public class AuDoc implements EntryPoint {
 			p = new HomePanel();
 			break;
 		}
-		p.setVisible(false);
+		//p.setVisible(false);
+		p.setVisible(true);
 		this.main.add(p);
-		Effect.appear(p);
+		//Effect.appear(p);
 		if(section == AuDoc.SECTION_RAPID){
 		    RapidBookingDialog rbd = new RapidBookingDialog();
 		    rbd.show();
