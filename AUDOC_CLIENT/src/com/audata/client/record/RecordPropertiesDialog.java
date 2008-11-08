@@ -140,9 +140,9 @@ public class RecordPropertiesDialog extends DialogBox implements TabListener,
          * Overide parent show method to add effects and dialog centering
          */
     public void show() {
-	this.setVisible(false);
+	this.setVisible(true);
 	super.show();
-	Effect.appear(this);
+	//Effect.appear(this);
 	int left = 20;
 	int top = 20;
 	this.setPopupPosition(left, top);
